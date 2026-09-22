@@ -1,0 +1,232 @@
+name: cv32e40p
+version: 0.1.0
+spec: '0.1'
+kind: ip
+lang: sv
+identity:
+  slug: cv32e40p-tapeout-foreign
+  display_name: CV32E40P
+  summary: PULP's RV32 core with the CORE-V extensions, taken as a black box.
+  category: processor
+  subcategories:
+  - riscv
+  ip_family: cv32e40p
+  integration_profile: []
+  maturity: planned
+contract:
+  version: 1
+  ctrl:
+    shape: none
+    aw: 32
+    dw: 32
+params:
+  # 上游把这些开关声明成 int 而不是 1 位，所以它们是取值不是布尔。
+  # 量程是照上游文档给的，好让矩阵真的两档都走一遍
+  corevPulp:
+    type: int
+    default: 0
+    range: [0, 1]
+  corevCluster:
+    type: int
+    default: 0
+    range: [0, 1]
+  fpu:
+    type: int
+    default: 0
+    range: [0, 1]
+  fpuAddmulLat:
+    type: int
+    default: 0
+    range: [0, 2]
+  fpuOthersLat:
+    type: int
+    default: 0
+    range: [0, 2]
+  zfinx:
+    type: int
+    default: 0
+    range: [0, 1]
+  numMhpmcounters:
+    type: int
+    default: 1
+    range: [0, 29]
+emit:
+- kind: foreign
+  lang: sv
+  top: cv32e40p_top
+  rtl:
+  - third_party/cv32e40p/rtl/cv32e40p_aligner.sv
+  - third_party/cv32e40p/rtl/cv32e40p_alu.sv
+  - third_party/cv32e40p/rtl/cv32e40p_alu_div.sv
+  - third_party/cv32e40p/rtl/cv32e40p_apu_disp.sv
+  - third_party/cv32e40p/rtl/cv32e40p_compressed_decoder.sv
+  - third_party/cv32e40p/rtl/cv32e40p_controller.sv
+  - third_party/cv32e40p/rtl/cv32e40p_core.sv
+  - third_party/cv32e40p/rtl/cv32e40p_cs_registers.sv
+  - third_party/cv32e40p/rtl/cv32e40p_decoder.sv
+  - third_party/cv32e40p/rtl/cv32e40p_ex_stage.sv
+  - third_party/cv32e40p/rtl/cv32e40p_ff_one.sv
+  - third_party/cv32e40p/rtl/cv32e40p_fifo.sv
+  - third_party/cv32e40p/rtl/cv32e40p_fp_wrapper.sv
+  - third_party/cv32e40p/rtl/cv32e40p_hwloop_regs.sv
+  - third_party/cv32e40p/rtl/cv32e40p_id_stage.sv
+  - third_party/cv32e40p/rtl/cv32e40p_if_stage.sv
+  - third_party/cv32e40p/rtl/cv32e40p_int_controller.sv
+  - third_party/cv32e40p/rtl/cv32e40p_load_store_unit.sv
+  - third_party/cv32e40p/rtl/cv32e40p_mult.sv
+  - third_party/cv32e40p/rtl/cv32e40p_obi_interface.sv
+  - third_party/cv32e40p/rtl/cv32e40p_popcnt.sv
+  - third_party/cv32e40p/rtl/cv32e40p_prefetch_buffer.sv
+  - third_party/cv32e40p/rtl/cv32e40p_prefetch_controller.sv
+  - third_party/cv32e40p/rtl/cv32e40p_register_file_ff.sv
+  - third_party/cv32e40p/rtl/cv32e40p_register_file_latch.sv
+  - third_party/cv32e40p/rtl/cv32e40p_sleep_unit.sv
+  - third_party/cv32e40p/rtl/cv32e40p_top.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/addr_decode.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/binary_to_gray.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/cb_filter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/cb_filter_pkg.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/cdc_2phase.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/cdc_fifo_2phase.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/cdc_fifo_gray.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/cf_math_pkg.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/clk_div.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/counter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/delta_counter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/clock_divider.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/clock_divider_counter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/fifo_v1.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/fifo_v2.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/find_first_one.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/generic_LFSR_8bit.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/generic_fifo.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/generic_fifo_adv.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/prioarbiter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/pulp_sync.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/pulp_sync_wedge.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/rrarbiter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/deprecated/sram.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/ecc_decode.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/ecc_encode.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/ecc_pkg.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/edge_detect.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/edge_propagator.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/edge_propagator_rx.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/edge_propagator_tx.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/exp_backoff.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/fall_through_register.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/fifo_v3.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/gray_to_binary.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/id_queue.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/isochronous_spill_register.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/lfsr.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/lfsr_16bit.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/lfsr_8bit.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/lzc.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/max_counter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/mv_filter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/onehot_to_bin.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/plru_tree.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/popcount.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/rr_arb_tree.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/rstgen.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/rstgen_bypass.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/serial_deglitch.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/shift_reg.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/spill_register.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_arbiter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_arbiter_flushable.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_delay.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_demux.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_fifo.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_filter.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_fork.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_fork_dynamic.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_intf.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_join.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_mux.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_omega_net.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_register.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_to_mem.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/stream_xbar.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/sub_per_hash.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/sync.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/sync_wedge.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_common_cells/src/unread.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_cast_multi.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_classifier.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_divsqrt_multi.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_divsqrt_th_32.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_fma.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_fma_multi.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_noncomp.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_opgroup_block.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_opgroup_fmt_slice.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_opgroup_multifmt_slice.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_pkg.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_rounding.sv
+  - third_party/cv32e40p/rtl/vendor/pulp_platform_fpnew/src/fpnew_top.sv
+  params:
+    COREV_CLUSTER: corevCluster
+    COREV_PULP: corevPulp
+    FPU: fpu
+    FPU_ADDMUL_LAT: fpuAddmulLat
+    FPU_OTHERS_LAT: fpuOthersLat
+    NUM_MHPMCOUNTERS: numMhpmcounters
+    ZFINX: zfinx
+  clock:
+    port: clk_i
+  reset:
+    port: rst_ni
+    active: low
+    sync: true
+  ports:
+  # 取指与访存各一条 OBI：req/gnt/rvalid，PULP 自己那套开放总线接口
+  - endpoint: instr
+    kind: transaction
+    role: manager
+    profile: obi
+    prefix: instr_
+  - endpoint: data
+    kind: transaction
+    role: manager
+    profile: obi
+    prefix: data_
+  # 中断按 CLIC 的形状：一条 32 位向量进来，应答与编号出去
+  - endpoint: irq
+    kind: event
+    role: sink
+    map:
+      irq: irq_i
+      ack: irq_ack_o
+      id: irq_id_o
+  # 调试握手：请求进来，三个状态出去
+  - endpoint: debug
+    kind: physical
+    type: Cv32DebugPins
+    prefix: debug_
+  - endpoint: pins
+    kind: physical
+    type: Cv32Pins
+    map:
+      bootAddr: boot_addr_i
+      coreSleep: core_sleep_o
+      dmExceptionAddr: dm_exception_addr_i
+      dmHaltAddr: dm_halt_addr_i
+      fetchEnable: fetch_enable_i
+      hartId: hart_id_i
+      mtvecAddr: mtvec_addr_i
+      pulpClockEn: pulp_clock_en_i
+      scanCgEn: scan_cg_en_i
+  limits:
+  - 存储口是 OBI，不是 AXI；要挂总线得在外面加桥
+  - corevCluster 要 corevPulp 一起开，上游文档如此
+  - 上游不带预编译固件，所以这一版没有上游测试，只有逐点展开与声明回执
+test:
+  noarea:
+  - numMhpmcounters
+  - fpuAddmulLat
+  - fpuOthersLat
+targets:
+  foreign:
+    driver: foreign
